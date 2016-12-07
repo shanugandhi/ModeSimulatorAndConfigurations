@@ -418,6 +418,7 @@ public class NodeMainPage extends javax.swing.JDialog {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
+        try {
             // TODO add your handling code here:
             power=jTextField2.getText();
             angle=jTextField3.getText();
@@ -437,37 +438,38 @@ public class NodeMainPage extends javax.swing.JDialog {
             for (int i =0; i< inputFiles.length; i++){
                 
                 
-               
-                try {
-                    
-                    calculatedFileLength = fileLength(inputFiles[i]);
-                    result[i] =  minimumDistance(inputFiles[i],calculatedFileLength);
-                    System.out.println(result[i]);
-                    sum= sum+ result[i];
-                }
-//            tryVariable = bestConfiguration(inputFiles[0],fileLength(inputFiles[0]),0,27);
-//            for (int i=0;i<tryVariable.length;i++){
-//                System.out.println("I am the new Code " + tryVariable[i]);
-//            }
-                catch (IOException ex) {
-                    Logger.getLogger(NodeMainPage.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-               
+                
+                
+                
+                calculatedFileLength = fileLength(inputFiles[i]);
+                result[i] =  minimumDistance(inputFiles[i],calculatedFileLength);
+                System.out.println(result[i]);
+                sum= sum+ result[i];
             }
+            
+            tryVariable = bestConfiguration(inputFiles[0],fileLength(inputFiles[0]),1,5);
+            for (int i=0;i<tryVariable.length;i++){
+                System.out.println("I am the new Code " + tryVariable[i]);    }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             rssiValue = sum/inputFiles.length;
             jTextField6.setText(String.valueOf(rssiValue));
+        } catch (IOException ex) {
+            Logger.getLogger(NodeMainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
-       
+  
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -623,15 +625,19 @@ public class NodeMainPage extends javax.swing.JDialog {
     
     
     
-    private int [] bestConfiguration(File inputFile,int fileLength,int index,int value ){
+   private int [] bestConfiguration(File inputFile,int fileLength,int index,int value ){
         
-       FileReader  inputFileReader =null;
+    FileReader  inputFileReader =null;
     BufferedReader  bufferedReader;
     String[][] newArray = new String[fileLength][5];
     int  intArray[][] = new int[fileLength][5]; 
     int [] eDistance = new int [fileLength];
-    int [][] powerArray = new int [fileLength][5];
-   
+    int [][] powerArray = null;
+    int [][] angleArray= null;
+    int [][] phaseAArray = null;
+    int [][] phaseBArray = null;
+    
+    int count =0;
     
         try {
            inputFileReader = new FileReader(inputFile);
@@ -660,56 +666,72 @@ public class NodeMainPage extends javax.swing.JDialog {
           //System.out.println(intArray[i][3] + i);
           }
         
-          if (index == 0){
+            
+            
+            
+            
+            
+          
           int j =0;
           
+          
           for(int i =0;i< intArray.length;i++){
+              System.out.println("array"+intArray[i][0]);
+           if (intArray[i][index] == value){
+               
+               count = count+1;
+           }
               
-           if (intArray[i][0] == value){
+           }  
+          
+         powerArray = new int [count][5]; 
+          
+             for(int i =0;i< intArray.length;i++){
+              System.out.println("array"+intArray[i][0]);
+           if (intArray[i][index] == value){  
+               
+               System.out.println("VAlue"+ value);
+               System.out.println(intArray[i][0]);
           powerArray[j][0] = intArray[i][0];
+           System.out.println("VAlue of power"+ powerArray[j][0]);
           powerArray[j][1] = intArray[i][1];
+          System.out.println("VAlue of angle"+ powerArray[j][1]);
           powerArray[j][2] = intArray[i][2];
           powerArray[j][3] = intArray[i][3];
           powerArray[j][4] = intArray[i][4];
+          j++;
+          }
+          }
           
-          }
-          }
+          
+          
           
            int maximum = -99999999;
            
            
-          for (int i =0;i< powerArray.length -1 ;i++)
-     
+          for (int i =0;i< powerArray.length  ;i++){
+      System.out.println("VAlue of power array length"+ powerArray.length);
           if (powerArray[i][4] > maximum ){
               
           maximum = powerArray[i][4];
           indexPowerArray = i;
           }
-          
-          
-          
-          
-          
-          
-          
-       
-          
-          
           }
           
           
           
-          
-          
-          
-            }
-             
+ System.out.println(Arrays.toString(powerArray[indexPowerArray]));
+           
         
         
+        }
     catch (IOException ex) {
             System.out.println("problem2");
         }
-    return powerArray[indexPowerArray];
+   
+        return powerArray[indexPowerArray]; 
+   }
+    
         
         
     
@@ -721,7 +743,17 @@ public class NodeMainPage extends javax.swing.JDialog {
     
     
     
-    }
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
