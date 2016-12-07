@@ -417,7 +417,7 @@ public class NodeMainPage extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
+        
             // TODO add your handling code here:
             power=jTextField2.getText();
             angle=jTextField3.getText();
@@ -437,34 +437,36 @@ public class NodeMainPage extends javax.swing.JDialog {
             for (int i =0; i< inputFiles.length; i++){
                 
                 
+               
                 try {
+                    
                     calculatedFileLength = fileLength(inputFiles[i]);
                     result[i] =  minimumDistance(inputFiles[i],calculatedFileLength);
                     System.out.println(result[i]);
                     sum= sum+ result[i];
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                } catch (IOException ex) {
-                    System.out.println("problem-2");;
                 }
-            }
-            tryVariable = bestConfiguration(inputFiles[0],fileLength(inputFiles[0]),0,27);
-            for (int i=0;i<tryVariable.length;i++){
-                System.out.println("I am the new Code " + tryVariable[i]);
+//            tryVariable = bestConfiguration(inputFiles[0],fileLength(inputFiles[0]),0,27);
+//            for (int i=0;i<tryVariable.length;i++){
+//                System.out.println("I am the new Code " + tryVariable[i]);
+//            }
+                catch (IOException ex) {
+                    Logger.getLogger(NodeMainPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+               
             }
             
             rssiValue = sum/inputFiles.length;
             jTextField6.setText(String.valueOf(rssiValue));
-        } catch (IOException ex) {
-            Logger.getLogger(NodeMainPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
        
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -503,12 +505,13 @@ public class NodeMainPage extends javax.swing.JDialog {
             int fileLength =0 ;
             inputFileReader = new FileReader(inputFile);
             bufferedReader = new BufferedReader(inputFileReader);
+            
             while (bufferedReader.readLine() !=null){
             fileLength= fileLength +1;
             }
-            
+            result=fileLength;
             bufferedReader.close();
-            //System.out.println(fileLength);
+            System.out.println(fileLength);
           
             
             
@@ -548,7 +551,7 @@ public class NodeMainPage extends javax.swing.JDialog {
     
     
     public int minimumDistance(File inputFile,int fileLength){
-    System.out.println("I am here 2");
+    System.out.println(fileLength);
     FileReader  inputFileReader =null;
     BufferedReader  bufferedReader;
     String[][] newArray = new String[fileLength][4];
@@ -569,7 +572,7 @@ public class NodeMainPage extends javax.swing.JDialog {
               
             for (int i = 0; i < fileLength ; i++){
                 String s  =  bufferedReader.readLine();
-          
+                {
           newArray[i] = s.split(",");
           intArray[i][0]= Integer.valueOf(newArray[i][0]);
            //System.out.println(intArray[i][0]+ i);
@@ -584,7 +587,7 @@ public class NodeMainPage extends javax.swing.JDialog {
          // System.out.println("I am here 3");
             
             }
-            
+            }
             
             
           bufferedReader.close();
